@@ -1,0 +1,3405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="NEXORA FIT — Discover physical activities that fit your profile, readiness, goals, and personal traits."
+    >
+
+    <title>NEXORA FIT — Find an activity that fits you.</title>
+
+
+    <style>
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Display",
+                "SF Pro Text",
+                Inter,
+                Arial,
+                sans-serif;
+
+            background: #050607;
+
+            color: #f5f7f6;
+
+            line-height: 1.65;
+
+            overflow-x: hidden;
+
+            font-size: 17px;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        ::selection {
+            background: rgba(79, 209, 168, .25);
+            color: white;
+        }
+
+
+        /* =========================================================
+           BACKGROUND
+        ========================================================= */
+
+        body::before {
+
+            content: "";
+
+            position: fixed;
+
+            width: 900px;
+            height: 900px;
+
+            top: -450px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(79, 209, 168, .055),
+                    transparent 68%
+                );
+
+            pointer-events: none;
+
+            z-index: -2;
+        }
+
+        body::after {
+
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,.012) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.012) 1px,
+                    transparent 1px
+                );
+
+            background-size: 75px 75px;
+
+            mask-image:
+                linear-gradient(
+                    to bottom,
+                    black,
+                    transparent 65%
+                );
+
+            pointer-events: none;
+
+            z-index: -3;
+        }
+
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
+        .nav {
+
+            position: fixed;
+
+            top: 15px;
+            left: 20px;
+            right: 20px;
+
+            height: 64px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 11px 0 16px;
+
+            background:
+                rgba(10, 13, 14, .68);
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            border-radius: 20px;
+
+            backdrop-filter:
+                blur(28px)
+                saturate(150%);
+
+            -webkit-backdrop-filter:
+                blur(28px)
+                saturate(150%);
+
+            z-index: 1000;
+
+            transition:
+                background .3s ease,
+                border-color .3s ease;
+        }
+
+        .nav.scrolled {
+
+            background:
+                rgba(7, 9, 10, .9);
+
+            border-color:
+                rgba(255,255,255,.12);
+        }
+
+
+        /* =========================================================
+           BRAND
+        ========================================================= */
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            text-decoration: none;
+
+            color:
+                rgba(255,255,255,.94);
+        }
+
+        .brand img {
+
+            width: 42px;
+            height: 42px;
+
+            object-fit: contain;
+
+            display: block;
+
+            padding: 6px;
+
+            border-radius: 11px;
+
+            background:
+                rgba(79,209,168,.045);
+
+            border:
+                1px solid
+                rgba(79,209,168,.14);
+        }
+
+        .brand-text {
+
+            font-size: 14px;
+
+            font-weight: 750;
+
+            letter-spacing: .17em;
+        }
+
+
+        /* =========================================================
+           NAV LINKS
+        ========================================================= */
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 4px;
+        }
+
+        .nav-link {
+
+            text-decoration: none;
+
+            color:
+                rgba(255,255,255,.62);
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            padding: 9px 17px;
+
+            border-radius: 12px;
+
+            transition:
+                color .25s ease,
+                background .25s ease;
+        }
+
+        .nav-link:hover {
+
+            color: white;
+
+            background:
+                rgba(255,255,255,.055);
+        }
+
+        .nav-link.active {
+
+            color: white;
+
+            background:
+                rgba(255,255,255,.085);
+        }
+
+
+        /* =========================================================
+           GENERAL
+        ========================================================= */
+
+        .container {
+
+            width:
+                min(1320px, calc(100% - 64px));
+
+            margin: auto;
+        }
+
+        section {
+
+            padding: 150px 0;
+        }
+
+        .eyebrow {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 22px;
+
+            color: #4fd1a8;
+
+            font-size: 12px;
+
+            font-weight: 750;
+
+            letter-spacing: .2em;
+
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+
+            content: "";
+
+            width: 24px;
+
+            height: 1px;
+
+            background: #4fd1a8;
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            padding-top: 145px;
+
+            padding-bottom: 90px;
+        }
+
+        .hero-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                .92fr 1.08fr;
+
+            align-items: center;
+
+            gap: 80px;
+        }
+
+        .hero-content {
+
+            max-width: 670px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .hero h1 {
+
+            font-size:
+                clamp(64px, 6.4vw, 96px);
+
+            line-height: .94;
+
+            letter-spacing: -.058em;
+
+            font-weight: 680;
+
+            margin-bottom: 34px;
+        }
+
+        .hero h1 span {
+
+            display: block;
+
+            color: #4fd1a8;
+        }
+
+        .hero-description {
+
+            max-width: 625px;
+
+            color:
+                rgba(255,255,255,.64);
+
+            font-size: 18px;
+
+            line-height: 1.85;
+
+            margin-bottom: 39px;
+        }
+
+        .hero-buttons {
+
+            display: flex;
+
+            gap: 11px;
+
+            flex-wrap: wrap;
+        }
+
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+
+        .button {
+
+            min-height: 53px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            padding:
+                0 22px;
+
+            border-radius: 14px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 650;
+
+            transition:
+                transform .25s ease,
+                background .25s ease,
+                border-color .25s ease;
+        }
+
+        .button-primary {
+
+            background: #4fd1a8;
+
+            color: #06100c;
+
+            box-shadow:
+                0 8px 25px
+                rgba(79,209,168,.08);
+        }
+
+        .button-primary:hover {
+
+            transform:
+                translateY(-2px);
+
+            background: #61d9b3;
+        }
+
+        .button-secondary {
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid
+                rgba(255,255,255,.1);
+
+            color:
+                rgba(255,255,255,.82);
+        }
+
+        .button-secondary:hover {
+
+            transform:
+                translateY(-2px);
+
+            color: white;
+
+            background:
+                rgba(255,255,255,.06);
+        }
+
+
+        /* =========================================================
+           HERO META
+        ========================================================= */
+
+        .hero-meta {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 25px;
+
+            margin-top: 45px;
+
+            padding-top: 24px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.07);
+
+            max-width: 610px;
+        }
+
+        .meta-item {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 4px;
+        }
+
+        .meta-value {
+
+            font-size: 14px;
+
+            font-weight: 650;
+
+            color:
+                rgba(255,255,255,.82);
+        }
+
+        .meta-label {
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .14em;
+
+            color:
+                rgba(255,255,255,.32);
+        }
+
+        .meta-divider {
+
+            width: 1px;
+
+            height: 30px;
+
+            background:
+                rgba(255,255,255,.09);
+        }
+
+
+        /* =========================================================
+           APP CAROUSEL
+        ========================================================= */
+
+        .app-showcase {
+
+            position: relative;
+
+            width: 100%;
+
+            display: flex;
+
+            justify-content: center;
+        }
+
+        .carousel {
+
+            position: relative;
+
+            width: 100%;
+
+            max-width: 610px;
+
+            padding:
+                20px 58px;
+        }
+
+        .carousel-window {
+
+            position: relative;
+
+            height: 670px;
+
+            overflow: hidden;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 34px;
+
+            background:
+                rgba(255,255,255,.018);
+
+            border:
+                1px solid
+                rgba(255,255,255,.085);
+
+            box-shadow:
+                0 40px 100px
+                rgba(0,0,0,.45);
+        }
+
+        .carousel-window::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,.035),
+                    transparent 35%
+                );
+
+            pointer-events: none;
+
+            z-index: 2;
+        }
+
+        .slide {
+
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            opacity: 0;
+
+            transform:
+                translateX(45px)
+                scale(.975);
+
+            transition:
+                opacity .45s ease,
+                transform .55s cubic-bezier(.22,.8,.25,1);
+
+            pointer-events: none;
+        }
+
+        .slide.active {
+
+            opacity: 1;
+
+            transform:
+                translateX(0)
+                scale(1);
+
+            pointer-events: auto;
+        }
+
+        .slide img {
+
+            height: 95%;
+
+            width: auto;
+
+            max-width: 90%;
+
+            object-fit: contain;
+
+            border-radius: 29px;
+
+            filter:
+                drop-shadow(
+                    0 25px 35px
+                    rgba(0,0,0,.55)
+                );
+        }
+
+
+        /* =========================================================
+           CAROUSEL ARROWS
+        ========================================================= */
+
+        .carousel-arrow {
+
+            position: absolute;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            width: 46px;
+
+            height: 46px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(255,255,255,.12);
+
+            background:
+                rgba(12,15,17,.88);
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+            z-index: 10;
+
+            transition:
+                background .25s ease,
+                border-color .25s ease,
+                transform .25s ease;
+        }
+
+        .carousel-arrow:hover {
+
+            background:
+                rgba(79,209,168,.12);
+
+            border-color:
+                rgba(79,209,168,.35);
+
+            transform:
+                translateY(-50%)
+                scale(1.05);
+        }
+
+        .carousel-arrow.left {
+            left: 2px;
+        }
+
+        .carousel-arrow.right {
+            right: 2px;
+        }
+
+
+        /* =========================================================
+           CAROUSEL INFO
+        ========================================================= */
+
+        .carousel-info {
+
+            text-align: center;
+
+            margin-top: 21px;
+        }
+
+        .carousel-title {
+
+            font-size: 15px;
+
+            font-weight: 650;
+
+            color:
+                rgba(255,255,255,.88);
+        }
+
+        .carousel-description {
+
+            max-width: 470px;
+
+            margin: 5px auto 0;
+
+            font-size: 13px;
+
+            line-height: 1.65;
+
+            color:
+                rgba(255,255,255,.44);
+        }
+
+        .carousel-dots {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-top: 14px;
+        }
+
+        .dot {
+
+            width: 7px;
+
+            height: 7px;
+
+            padding: 0;
+
+            border: 0;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,.2);
+
+            cursor: pointer;
+
+            transition:
+                width .3s ease,
+                background .3s ease;
+        }
+
+        .dot.active {
+
+            width: 20px;
+
+            background: #4fd1a8;
+        }
+
+
+        /* =========================================================
+           SECTION HEADINGS
+        ========================================================= */
+
+        .section-intro {
+
+            max-width: 820px;
+
+            margin-bottom: 72px;
+        }
+
+        .section-intro h2 {
+
+            font-size:
+                clamp(46px, 5vw, 72px);
+
+            line-height: .98;
+
+            letter-spacing: -.05em;
+
+            margin-bottom: 28px;
+        }
+
+        .section-intro p {
+
+            font-size: 18px;
+
+            line-height: 1.85;
+
+            color:
+                rgba(255,255,255,.59);
+        }
+
+
+        /* =========================================================
+           FEATURE CARDS
+        ========================================================= */
+
+        .feature-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+        .feature-card {
+
+            position: relative;
+
+            min-height: 290px;
+
+            padding: 39px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.045),
+                    rgba(255,255,255,.014)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,.075);
+
+            border-radius: 25px;
+
+            transition:
+                transform .3s ease,
+                border-color .3s ease,
+                background .3s ease;
+        }
+
+        .feature-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            border-color:
+                rgba(79,209,168,.18);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.018)
+                );
+        }
+
+        .feature-number {
+
+            color: #4fd1a8;
+
+            font-size: 12px;
+
+            font-weight: 750;
+
+            letter-spacing: .16em;
+
+            margin-bottom: 40px;
+        }
+
+        .feature-card h3 {
+
+            font-size: 27px;
+
+            letter-spacing: -.025em;
+
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+
+            max-width: 500px;
+
+            font-size: 16px;
+
+            line-height: 1.85;
+
+            color:
+                rgba(255,255,255,.52);
+        }
+
+
+        /* =========================================================
+           PHILOSOPHY
+        ========================================================= */
+
+        .philosophy {
+
+            padding:
+                45px 0;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.055);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.055);
+        }
+
+        .philosophy-inner {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 40px;
+        }
+
+        .philosophy-text {
+
+            max-width: 850px;
+
+            font-size: 24px;
+
+            line-height: 1.45;
+
+            letter-spacing: -.025em;
+
+            color:
+                rgba(255,255,255,.77);
+        }
+
+        .philosophy-text span {
+
+            color: #4fd1a8;
+        }
+
+        .philosophy-label {
+
+            white-space: nowrap;
+
+            color:
+                rgba(255,255,255,.28);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: .18em;
+
+            text-transform: uppercase;
+        }
+
+
+        /* =========================================================
+           HOW IT WORKS
+        ========================================================= */
+
+        .steps {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap: 0;
+        }
+
+        .step {
+
+            position: relative;
+
+            padding:
+                32px 30px 32px 0;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.1);
+        }
+
+        .step:not(:last-child) {
+            margin-right: 30px;
+        }
+
+        .step-number {
+
+            color: #4fd1a8;
+
+            font-size: 12px;
+
+            font-weight: 750;
+
+            letter-spacing: .15em;
+
+            margin-bottom: 40px;
+        }
+
+        .step h3 {
+
+            font-size: 21px;
+
+            letter-spacing: -.02em;
+
+            margin-bottom: 13px;
+        }
+
+        .step p {
+
+            font-size: 15px;
+
+            line-height: 1.85;
+
+            color:
+                rgba(255,255,255,.49);
+        }
+
+        .step-arrow {
+
+            position: absolute;
+
+            right: 30px;
+
+            top: 30px;
+
+            color:
+                rgba(255,255,255,.18);
+
+            font-size: 16px;
+        }
+
+
+        /* =========================================================
+           WHY NEXORA
+        ========================================================= */
+
+        .why-section {
+            padding-top: 115px;
+        }
+
+        .why-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                .72fr 1.28fr;
+
+            gap: 130px;
+
+            align-items: start;
+        }
+
+        .why-title {
+
+            position: sticky;
+
+            top: 115px;
+        }
+
+        .why-title h2 {
+
+            font-size:
+                clamp(46px,5vw,70px);
+
+            line-height: .98;
+
+            letter-spacing: -.05em;
+        }
+
+        .why-list {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        .why-item {
+
+            display: grid;
+
+            grid-template-columns:
+                38px 1fr;
+
+            gap: 20px;
+
+            padding: 32px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.07);
+        }
+
+        .why-item:first-child {
+            padding-top: 0;
+        }
+
+        .why-icon {
+
+            width: 31px;
+            height: 31px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                rgba(79,209,168,.07);
+
+            color: #4fd1a8;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+        .why-item h3 {
+
+            font-size: 21px;
+
+            margin-bottom: 9px;
+        }
+
+        .why-item p {
+
+            font-size: 15px;
+
+            line-height: 1.85;
+
+            color:
+                rgba(255,255,255,.49);
+        }
+
+
+        /* =========================================================
+           DOWNLOAD SECTION
+        ========================================================= */
+
+        .download-section {
+
+            padding-top: 125px;
+
+            padding-bottom: 105px;
+        }
+
+        .download-box {
+
+            position: relative;
+
+            overflow: hidden;
+
+            min-height: 440px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding:
+                75px;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(79,209,168,.075),
+                    rgba(255,255,255,.025)
+                );
+
+            border:
+                1px solid
+                rgba(79,209,168,.14);
+        }
+
+        .download-box::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            right: 70px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(79,209,168,.035),
+                    transparent 70%
+                );
+
+            pointer-events: none;
+        }
+
+        .download-box-content {
+
+            position: relative;
+
+            z-index: 3;
+
+            max-width: 700px;
+        }
+
+        .download-box h2 {
+
+            font-size:
+                clamp(45px,5vw,68px);
+
+            line-height: 1;
+
+            letter-spacing: -.05em;
+
+            margin-bottom: 21px;
+        }
+
+        .download-box p {
+
+            max-width: 700px;
+
+            color:
+                rgba(255,255,255,.55);
+
+            font-size: 17px;
+
+            line-height: 1.85;
+
+            margin-bottom: 33px;
+        }
+
+
+        /* =========================================================
+           BIG LOGO IN DOWNLOAD SECTION
+        ========================================================= */
+
+        .download-logo {
+    position: absolute;
+
+    right: 75px;
+    top: 50%;
+
+    width: 370px;
+    height: 370px;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 10;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    pointer-events: auto;
+
+    transition:
+        transform 0.35s cubic-bezier(.22,.8,.25,1),
+        opacity 0.35s ease;
+}
+
+.download-logo:hover {
+    transform:
+        translateY(-50%)
+        scale(1.08);
+
+    opacity: 1;
+}
+
+.download-logo:hover {
+    transform:
+        translateY(-50%)
+        scale(1.04);
+
+    opacity: .9;
+}
+
+        .download-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    border-radius: 28px;
+
+    opacity: .82;
+
+    filter:
+        drop-shadow(
+            0 25px 45px
+            rgba(0,0,0,.38)
+        );
+}
+
+
+        /* =========================================================
+           DISCLAIMER
+        ========================================================= */
+
+        .disclaimer {
+
+            padding:
+                34px 38px;
+
+            background:
+                rgba(255,255,255,.018);
+
+            border:
+                1px solid
+                rgba(255,255,255,.06);
+
+            border-radius: 20px;
+        }
+
+        .disclaimer-title {
+
+            color:
+                rgba(255,255,255,.72);
+
+            font-size: 11px;
+
+            font-weight: 750;
+
+            letter-spacing: .17em;
+
+            text-transform: uppercase;
+
+            margin-bottom: 11px;
+        }
+
+        .disclaimer p {
+
+            font-size: 14px;
+
+            line-height: 1.85;
+
+            color:
+                rgba(255,255,255,.43);
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+
+            margin-top: 25px;
+
+            padding:
+                62px 0 45px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.06);
+        }
+
+        .footer-content {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 50px;
+        }
+
+        .footer-brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            font-size: 15px;
+
+            font-weight: 750;
+
+            letter-spacing: .17em;
+
+            color:
+                rgba(255,255,255,.82);
+
+            margin-bottom: 10px;
+        }
+
+        .footer-brand img {
+
+            width: 42px;
+            height: 42px;
+
+            object-fit: contain;
+
+            padding: 6px;
+
+            border-radius: 11px;
+
+            background:
+                rgba(79,209,168,.045);
+
+            border:
+                1px solid
+                rgba(79,209,168,.14);
+        }
+
+        .footer-tagline {
+
+            font-size: 13px;
+
+            color:
+                rgba(255,255,255,.36);
+        }
+
+        .footer-developer {
+
+            text-align: right;
+
+            font-size: 12px;
+
+            line-height: 1.9;
+
+            color:
+                rgba(255,255,255,.36);
+        }
+
+        .developer-names {
+
+            color:
+                rgba(255,255,255,.72);
+
+            font-weight: 550;
+
+            font-size: 14px;
+        }
+
+        .footer-copyright {
+
+            margin-top: 5px;
+
+            color:
+                rgba(255,255,255,.23);
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           SCROLL REVEAL
+        ========================================================= */
+
+        .reveal {
+
+            opacity: 0;
+
+            transform:
+                translateY(22px);
+
+            transition:
+                opacity .75s ease,
+                transform .75s cubic-bezier(.22,.8,.25,1);
+        }
+
+        .reveal.visible {
+
+            opacity: 1;
+
+            transform:
+                translateY(0);
+        }
+
+
+        /* =========================================================
+           TABLET
+        ========================================================= */
+
+        @media (max-width: 1100px) {
+
+            .hero-grid {
+
+                grid-template-columns: 1fr;
+
+                gap: 75px;
+            }
+
+            .hero-content {
+                max-width: 800px;
+            }
+
+            .app-showcase {
+                justify-content: center;
+            }
+
+            .why-layout {
+
+                grid-template-columns: 1fr;
+
+                gap: 60px;
+            }
+
+            .why-title {
+                position: static;
+            }
+
+            .steps {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+
+                row-gap: 30px;
+            }
+
+            .step:not(:last-child) {
+                margin-right: 0;
+            }
+
+            .download-box {
+
+                min-height: 410px;
+
+                padding: 60px;
+            }
+
+            .download-logo {
+
+                width: 300px;
+                height: 300px;
+
+                right: 35px;
+            }
+
+            .download-box-content {
+
+                max-width: 610px;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 700px) {
+
+            .container {
+
+                width:
+                    calc(100% - 34px);
+            }
+
+            section {
+                padding: 100px 0;
+            }
+
+            .nav {
+
+                height: 59px;
+
+                left: 11px;
+                right: 11px;
+
+                top: 11px;
+            }
+
+            .brand img {
+
+                width: 37px;
+                height: 37px;
+            }
+
+            .brand-text {
+                font-size: 11px;
+            }
+
+            .nav-link {
+
+                padding:
+                    8px 11px;
+
+                font-size: 12px;
+            }
+
+            .hero {
+
+                padding-top: 110px;
+            }
+
+            .hero h1 {
+
+                font-size:
+                    clamp(50px,14vw,70px);
+            }
+
+            .hero-description {
+
+                font-size: 16px;
+            }
+
+            .hero-meta {
+
+                gap: 16px;
+
+                flex-wrap: wrap;
+            }
+
+            .meta-divider {
+                display: none;
+            }
+
+            .carousel {
+
+                padding:
+                    12px 35px;
+            }
+
+            .carousel-window {
+
+                height: 520px;
+
+                border-radius: 27px;
+            }
+
+            .carousel-arrow {
+
+                width: 38px;
+                height: 38px;
+            }
+
+            .carousel-arrow.left {
+                left: 0;
+            }
+
+            .carousel-arrow.right {
+                right: 0;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                min-height: 230px;
+            }
+
+            .philosophy-inner {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+            .philosophy-text {
+                font-size: 20px;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .step {
+                padding-right: 0;
+            }
+
+            .step-arrow {
+                display: none;
+            }
+
+
+            /* DOWNLOAD MOBILE */
+
+            .download-box {
+
+                min-height: 490px;
+
+                padding:
+                    48px 29px;
+
+                align-items: flex-start;
+            }
+
+            .download-box-content {
+
+                max-width: 100%;
+            }
+
+            .download-logo {
+
+                width: 190px;
+                height: 190px;
+
+                right: -25px;
+                bottom: -25px;
+                top: auto;
+
+                transform: none;
+
+                opacity: .3;
+            }
+
+            .footer-content {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .footer-developer {
+                text-align: left;
+            }
+        }
+
+
+        /* =========================================================
+           SMALL MOBILE
+        ========================================================= */
+
+        @media (max-width: 480px) {
+
+            .brand img {
+
+                width: 34px;
+                height: 34px;
+            }
+
+            .brand-text {
+                font-size: 10px;
+            }
+
+            .nav-link {
+
+                padding:
+                    7px 9px;
+
+                font-size: 11px;
+            }
+
+            .hero-buttons {
+
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+            .carousel-window {
+                height: 450px;
+            }
+
+            .hero-meta {
+                margin-top: 35px;
+            }
+
+            .download-box {
+
+                min-height: 460px;
+            }
+
+            .download-logo {
+
+                width: 165px;
+                height: 165px;
+
+                right: -20px;
+                bottom: -20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================= -->
+
+    <nav class="nav" id="navbar">
+
+        <a
+            href="#home"
+            class="brand"
+        >
+
+            <img
+                src="images/NexoraLogo.png"
+                alt="NEXORA FIT Logo"
+            >
+
+            <span class="brand-text">
+                NEXORA FIT
+            </span>
+
+        </a>
+
+
+        <div class="nav-links">
+
+            <a
+                href="#home"
+                class="nav-link active"
+            >
+                Home
+            </a>
+
+            <a
+                href="#about"
+                class="nav-link"
+            >
+                About
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================= -->
+
+    <main id="home">
+
+
+        <!-- =====================================================
+             HERO
+        ===================================================== -->
+
+        <section class="hero">
+
+            <div class="container">
+
+
+                <div class="hero-grid">
+
+
+                    <div class="hero-content reveal">
+
+
+                        <div class="eyebrow">
+                            NEXORA FIT
+                        </div>
+
+
+                        <h1>
+
+                            Find an activity
+
+                            <span>
+                                that fits you.
+                            </span>
+
+                        </h1>
+
+
+                        <p class="hero-description">
+
+                            Nexora Fit helps you understand which
+                            physical activities may suit your current
+                            profile, readiness, goals, and personal
+                            traits — before you commit to them.
+
+                        </p>
+
+
+                        <div class="hero-buttons">
+
+                            <a
+                                href="YOUR_APP_DOWNLOAD_LINK_HERE"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="button button-primary"
+                            >
+
+                                Download NEXORA FIT
+
+                                <span>↓</span>
+
+                            </a>
+
+
+                            <a
+                                href="#how-it-works"
+                                class="button button-secondary"
+                            >
+
+                                How it works
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="hero-meta">
+
+
+                            <div class="meta-item">
+
+                                <span class="meta-value">
+                                    Profile-based
+                                </span>
+
+                                <span class="meta-label">
+                                    Assessment
+                                </span>
+
+                            </div>
+
+
+                            <div class="meta-divider"></div>
+
+
+                            <div class="meta-item">
+
+                                <span class="meta-value">
+                                    Activity-specific
+                                </span>
+
+                                <span class="meta-label">
+                                    Questions
+                                </span>
+
+                            </div>
+
+
+                            <div class="meta-divider"></div>
+
+
+                            <div class="meta-item">
+
+                                <span class="meta-value">
+                                    Personalized
+                                </span>
+
+                                <span class="meta-label">
+                                    Results
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         APP SHOWCASE
+                    ================================================= -->
+
+                    <div class="app-showcase reveal">
+
+
+                        <div class="carousel">
+
+
+                            <button
+                                class="carousel-arrow left"
+                                id="prevButton"
+                                aria-label="Previous screen"
+                            >
+                                ←
+                            </button>
+
+
+                            <div
+                                class="carousel-window"
+                                id="carouselWindow"
+                            >
+
+
+                                <div
+                                    class="slide active"
+                                    data-title="Your NEXORA FIT Dashboard"
+                                    data-description="See your profile, recent assessments, and activity compatibility."
+                                >
+
+                                    <img
+                                        src="images/home.jpg"
+                                        alt="NEXORA FIT Home Screen"
+                                    >
+
+                                </div>
+
+
+                                <div
+                                    class="slide"
+                                    data-title="Activity Compatibility"
+                                    data-description="Understand how an activity matches your current profile."
+                                >
+
+                                    <img
+                                        src="images/result.jpg"
+                                        alt="NEXORA FIT Activity Result"
+                                    >
+
+                                </div>
+
+
+                                <div
+                                    class="slide"
+                                    data-title="Choose Your Activity"
+                                    data-description="Explore activities and find one worth assessing."
+                                >
+
+                                    <img
+                                        src="images/activities.jpg"
+                                        alt="NEXORA FIT Activity Selection"
+                                    >
+
+                                </div>
+
+
+                                <div
+                                    class="slide"
+                                    data-title="Your Personal Profile"
+                                    data-description="Keep your physical information and fitness profile in one place."
+                                >
+
+                                    <img
+                                        src="images/profile.jpg"
+                                        alt="NEXORA FIT Profile"
+                                    >
+
+                                </div>
+
+
+                            </div>
+
+
+                            <button
+                                class="carousel-arrow right"
+                                id="nextButton"
+                                aria-label="Next screen"
+                            >
+                                →
+                            </button>
+
+
+                            <div class="carousel-info">
+
+                                <div
+                                    class="carousel-title"
+                                    id="carouselTitle"
+                                >
+                                    Your NEXORA FIT Dashboard
+                                </div>
+
+
+                                <div
+                                    class="carousel-description"
+                                    id="carouselDescription"
+                                >
+                                    See your profile, recent assessments,
+                                    and activity compatibility.
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="carousel-dots"
+                                id="carouselDots"
+                            >
+
+                                <button
+                                    class="dot active"
+                                    aria-label="Show dashboard"
+                                ></button>
+
+                                <button
+                                    class="dot"
+                                    aria-label="Show result"
+                                ></button>
+
+                                <button
+                                    class="dot"
+                                    aria-label="Show activities"
+                                ></button>
+
+                                <button
+                                    class="dot"
+                                    aria-label="Show profile"
+                                ></button>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             PHILOSOPHY
+        ===================================================== -->
+
+        <div class="philosophy reveal">
+
+            <div class="container">
+
+                <div class="philosophy-inner">
+
+
+                    <div class="philosophy-text">
+
+                        Don't just ask
+                        <span>"What can I do?"</span>
+
+                        Ask what
+                        <span>fits me.</span>
+
+                    </div>
+
+
+                    <div class="philosophy-label">
+                        The idea behind Nexora Fit
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             ABOUT
+        ===================================================== -->
+
+        <section id="about">
+
+            <div class="container">
+
+
+                <div class="section-intro reveal">
+
+
+                    <div class="eyebrow">
+                        What is NEXORA FIT?
+                    </div>
+
+
+                    <h2>
+                        More than choosing
+                        a workout.
+                    </h2>
+
+
+                    <p>
+
+                        Nexora Fit is an activity compatibility
+                        assessment platform designed to help users
+                        discover physical activities that may better
+                        align with who they are today.
+
+                    </p>
+
+
+                    <br>
+
+
+                    <p>
+
+                        Instead of simply asking what activity you
+                        want to do, Nexora Fit considers different
+                        aspects of your profile, readiness, health
+                        screening responses, fitness level, personality,
+                        goals, and preferences to provide a more
+                        informed starting point.
+
+                    </p>
+
+                </div>
+
+
+
+                <div class="feature-grid">
+
+
+                    <div class="feature-card reveal">
+
+                        <div class="feature-number">
+                            01
+                        </div>
+
+                        <h3>
+                            Find Your Fit
+                        </h3>
+
+                        <p>
+
+                            Assess how well a physical activity may
+                            match your current profile, fitness level,
+                            readiness, goals, and personal traits.
+
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="feature-card reveal">
+
+                        <div class="feature-number">
+                            02
+                        </div>
+
+                        <h3>
+                            Understand Your Result
+                        </h3>
+
+                        <p>
+
+                            Go beyond a simple percentage. Nexora Fit
+                            explains the factors behind your result,
+                            including strengths, considerations,
+                            and flagged concerns.
+
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="feature-card reveal">
+
+                        <div class="feature-number">
+                            03
+                        </div>
+
+                        <h3>
+                            Explore Alternatives
+                        </h3>
+
+                        <p>
+
+                            If an activity may not be the best match
+                            right now, explore other activities that
+                            may better align with your profile.
+
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="feature-card reveal">
+
+                        <div class="feature-number">
+                            04
+                        </div>
+
+                        <h3>
+                            Build a Starting Plan
+                        </h3>
+
+                        <p>
+
+                            Turn your assessment into a simple
+                            starting direction based on your goals
+                            and preferred activity frequency.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             HOW IT WORKS
+        ===================================================== -->
+
+        <section id="how-it-works">
+
+            <div class="container">
+
+
+                <div class="section-intro reveal">
+
+
+                    <div class="eyebrow">
+                        How it works
+                    </div>
+
+
+                    <h2>
+                        From profile
+                        to possibility.
+                    </h2>
+
+
+                    <p>
+
+                        Nexora Fit turns different pieces of
+                        information about you into a clearer picture
+                        of which activities may be worth exploring.
+
+                    </p>
+
+                </div>
+
+
+
+                <div class="steps">
+
+
+                    <div class="step reveal">
+
+                        <div class="step-number">
+                            01
+                        </div>
+
+                        <h3>
+                            Build your profile
+                        </h3>
+
+                        <p>
+
+                            Enter relevant information such as your
+                            physical profile, fitness level, and other
+                            factors used by the assessment.
+
+                        </p>
+
+                        <span class="step-arrow">
+                            →
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="step reveal">
+
+                        <div class="step-number">
+                            02
+                        </div>
+
+                        <h3>
+                            Take the assessment
+                        </h3>
+
+                        <p>
+
+                            Answer activity-specific questions and
+                            provide information about your goals,
+                            traits, and readiness.
+
+                        </p>
+
+                        <span class="step-arrow">
+                            →
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="step reveal">
+
+                        <div class="step-number">
+                            03
+                        </div>
+
+                        <h3>
+                            Understand your match
+                        </h3>
+
+                        <p>
+
+                            Receive a compatibility result together
+                            with explanations of the factors
+                            contributing to it.
+
+                        </p>
+
+                        <span class="step-arrow">
+                            →
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="step reveal">
+
+                        <div class="step-number">
+                            04
+                        </div>
+
+                        <h3>
+                            Start with a plan
+                        </h3>
+
+                        <p>
+
+                            Use your result to explore alternatives
+                            or create a simple activity direction
+                            that fits your goals.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             WHY NEXORA
+        ===================================================== -->
+
+        <section class="why-section">
+
+            <div class="container">
+
+
+                <div class="why-layout">
+
+
+                    <div class="why-title reveal">
+
+                        <div class="eyebrow">
+                            Why NEXORA FIT?
+                        </div>
+
+
+                        <h2>
+                            A different way
+                            to choose activity.
+                        </h2>
+
+                    </div>
+
+
+
+                    <div class="why-list">
+
+
+                        <div class="why-item reveal">
+
+                            <div class="why-icon">
+                                ✓
+                            </div>
+
+
+                            <div>
+
+                                <h3>
+                                    Multiple factors
+                                </h3>
+
+                                <p>
+
+                                    Activity suitability is explored
+                                    through more than one piece of
+                                    information. Physical profile,
+                                    fitness level, health screening,
+                                    goals, and personal traits can
+                                    all contribute to the assessment.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="why-item reveal">
+
+                            <div class="why-icon">
+                                ✓
+                            </div>
+
+
+                            <div>
+
+                                <h3>
+                                    Activity-specific assessment
+                                </h3>
+
+                                <p>
+
+                                    Different activities can present
+                                    different demands. Nexora Fit
+                                    uses activity-specific questions
+                                    rather than treating every
+                                    activity exactly the same.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="why-item reveal">
+
+                            <div class="why-icon">
+                                ✓
+                            </div>
+
+
+                            <div>
+
+                                <h3>
+                                    Explanations, not just percentages
+                                </h3>
+
+                                <p>
+
+                                    A compatibility score is only
+                                    part of the result. Nexora Fit
+                                    provides context so users can
+                                    understand what may be contributing
+                                    to their assessment.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="why-item reveal">
+
+                            <div class="why-icon">
+                                ✓
+                            </div>
+
+
+                            <div>
+
+                                <h3>
+                                    Alternatives and next steps
+                                </h3>
+
+                                <p>
+
+                                    The goal is not simply to tell
+                                    users what they should or should
+                                    not do. Nexora Fit helps them
+                                    explore other possibilities and
+                                    decide where to begin.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             DOWNLOAD
+        ===================================================== -->
+
+        <section class="download-section">
+
+            <div class="container">
+
+
+                <div class="download-box reveal">
+
+
+                    <div class="download-box-content">
+
+
+                        <div class="eyebrow">
+                            Try NEXORA FIT
+                        </div>
+
+
+                        <h2>
+                            Find where
+                            you fit.
+                        </h2>
+
+
+                        <p>
+
+                            Explore your activity compatibility,
+                            understand your results, and discover
+                            possibilities that may fit the person
+                            you are today.
+
+                        </p>
+
+
+                        <a
+                            href="YOUR_APP_DOWNLOAD_LINK_HERE"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="button button-primary"
+                        >
+
+                            Download NEXORA FIT
+
+                            <span>↓</span>
+
+                        </a>
+
+
+                    </div>
+
+
+                    <!-- BIG ACTUAL NEXORA LOGO -->
+
+                    <a
+    href="YOUR_APP_DOWNLOAD_LINK_HERE"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="download-logo"
+    aria-label="Download NEXORA FIT"
+>
+
+    <img
+        src="images/NexoraLogo.png"
+        alt="Download NEXORA FIT"
+    >
+
+</a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             DISCLAIMER
+        ===================================================== -->
+
+        <section
+            style="
+                padding-top: 0;
+                padding-bottom: 90px;
+            "
+        >
+
+            <div class="container">
+
+
+                <div class="disclaimer reveal">
+
+
+                    <div class="disclaimer-title">
+                        Important
+                    </div>
+
+
+                    <p>
+
+                        Nexora Fit is an informational and educational
+                        activity assessment tool. Its results are
+                        intended to support activity exploration and
+                        are not a medical diagnosis, medical clearance,
+                        or substitute for professional healthcare advice.
+                        Users with health concerns should consult an
+                        appropriate healthcare professional before
+                        beginning physical activity.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+
+    <footer>
+
+        <div class="container">
+
+
+            <div class="footer-content">
+
+
+                <div>
+
+                    <div class="footer-brand">
+
+                        <img
+                            src="images/NexoraLogo.png"
+                            alt="NEXORA FIT Logo"
+                        >
+
+                        <span>
+                            NEXORA FIT
+                        </span>
+
+                    </div>
+
+
+                    <div class="footer-tagline">
+                        Discover what fits you.
+                    </div>
+
+                </div>
+
+
+
+                <div class="footer-developer">
+
+                    <div>
+                        Developed by
+                    </div>
+
+
+                    <!-- CHANGE THESE TO YOUR ACTUAL FOUR NAMES -->
+
+                    <div class="developer-names">
+
+                        Alzen Nicolas
+                        ·
+                        Andrei Sarsalejo
+                        ·
+                        Byron Virador
+                        ·
+                        Ralph Ramonida
+
+                    </div>
+
+
+                    <div class="footer-copyright">
+
+                        © 2026 Nexora Fit.
+                        All rights reserved.
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================= -->
+
+    <script>
+
+
+        /* =========================================================
+           CAROUSEL
+        ========================================================= */
+
+        const slides =
+            document.querySelectorAll(".slide");
+
+        const dots =
+            document.querySelectorAll(".dot");
+
+        const title =
+            document.getElementById("carouselTitle");
+
+        const description =
+            document.getElementById("carouselDescription");
+
+        const nextButton =
+            document.getElementById("nextButton");
+
+        const prevButton =
+            document.getElementById("prevButton");
+
+        const carouselWindow =
+            document.getElementById("carouselWindow");
+
+
+        let currentSlide = 0;
+
+        let autoPlay;
+
+
+        function showSlide(index) {
+
+            if (index < 0) {
+
+                index =
+                    slides.length - 1;
+
+            }
+
+            if (index >= slides.length) {
+
+                index = 0;
+
+            }
+
+            currentSlide = index;
+
+
+            slides.forEach(
+                slide => {
+
+                    slide.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+
+            dots.forEach(
+                dot => {
+
+                    dot.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+
+            slides[currentSlide]
+                .classList.add(
+                    "active"
+                );
+
+
+            dots[currentSlide]
+                .classList.add(
+                    "active"
+                );
+
+
+            title.textContent =
+                slides[currentSlide]
+                .dataset.title;
+
+
+            description.textContent =
+                slides[currentSlide]
+                .dataset.description;
+
+        }
+
+
+        function nextSlide() {
+
+            showSlide(
+                currentSlide + 1
+            );
+
+        }
+
+
+        function previousSlide() {
+
+            showSlide(
+                currentSlide - 1
+            );
+
+        }
+
+
+        nextButton.addEventListener(
+            "click",
+            () => {
+
+                nextSlide();
+
+                restartAutoPlay();
+
+            }
+        );
+
+
+        prevButton.addEventListener(
+            "click",
+            () => {
+
+                previousSlide();
+
+                restartAutoPlay();
+
+            }
+        );
+
+
+        dots.forEach(
+            (dot, index) => {
+
+                dot.addEventListener(
+                    "click",
+                    () => {
+
+                        showSlide(index);
+
+                        restartAutoPlay();
+
+                    }
+                );
+
+            }
+        );
+
+
+        function startAutoPlay() {
+
+            autoPlay =
+                setInterval(
+                    nextSlide,
+                    5500
+                );
+
+        }
+
+
+        function stopAutoPlay() {
+
+            clearInterval(
+                autoPlay
+            );
+
+        }
+
+
+        function restartAutoPlay() {
+
+            stopAutoPlay();
+
+            startAutoPlay();
+
+        }
+
+
+        carouselWindow.addEventListener(
+            "mouseenter",
+            stopAutoPlay
+        );
+
+
+        carouselWindow.addEventListener(
+            "mouseleave",
+            startAutoPlay
+        );
+
+
+        startAutoPlay();
+
+
+
+        /* =========================================================
+           KEYBOARD CONTROLS
+        ========================================================= */
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key === "ArrowRight"
+                ) {
+
+                    nextSlide();
+
+                    restartAutoPlay();
+
+                }
+
+
+                if (
+                    event.key === "ArrowLeft"
+                ) {
+
+                    previousSlide();
+
+                    restartAutoPlay();
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================================================
+           TOUCH / SWIPE
+        ========================================================= */
+
+        let touchStartX = 0;
+
+        let touchEndX = 0;
+
+
+        carouselWindow.addEventListener(
+            "touchstart",
+            event => {
+
+                touchStartX =
+                    event.changedTouches[0]
+                    .screenX;
+
+                stopAutoPlay();
+
+            },
+            {
+                passive: true
+            }
+        );
+
+
+        carouselWindow.addEventListener(
+            "touchend",
+            event => {
+
+                touchEndX =
+                    event.changedTouches[0]
+                    .screenX;
+
+
+                const difference =
+                    touchStartX -
+                    touchEndX;
+
+
+                if (
+                    Math.abs(difference) > 45
+                ) {
+
+                    if (
+                        difference > 0
+                    ) {
+
+                        nextSlide();
+
+                    } else {
+
+                        previousSlide();
+
+                    }
+
+                }
+
+
+                startAutoPlay();
+
+            },
+            {
+                passive: true
+            }
+        );
+
+
+
+        /* =========================================================
+           NAVIGATION SCROLL EFFECT
+        ========================================================= */
+
+        const navbar =
+            document.getElementById(
+                "navbar"
+            );
+
+
+        window.addEventListener(
+            "scroll",
+            () => {
+
+                if (
+                    window.scrollY > 30
+                ) {
+
+                    navbar.classList.add(
+                        "scrolled"
+                    );
+
+                } else {
+
+                    navbar.classList.remove(
+                        "scrolled"
+                    );
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================================================
+           ACTIVE NAVIGATION
+        ========================================================= */
+
+        const navLinks =
+            document.querySelectorAll(
+                ".nav-link"
+            );
+
+
+        const sections =
+            document.querySelectorAll(
+                "main section[id]"
+            );
+
+
+        const observer =
+            new IntersectionObserver(
+                entries => {
+
+                    entries.forEach(
+                        entry => {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                navLinks.forEach(
+                                    link => {
+
+                                        link.classList.remove(
+                                            "active"
+                                        );
+
+                                    }
+                                );
+
+
+                                const activeLink =
+                                    document.querySelector(
+                                        `.nav-link[href="#${entry.target.id}"]`
+                                    );
+
+
+                                if (
+                                    activeLink
+                                ) {
+
+                                    activeLink.classList.add(
+                                        "active"
+                                    );
+
+                                }
+
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: .25
+                }
+            );
+
+
+        sections.forEach(
+            section => {
+
+                observer.observe(
+                    section
+                );
+
+            }
+        );
+
+
+
+        /* =========================================================
+           SCROLL REVEAL
+        ========================================================= */
+
+        const revealElements =
+            document.querySelectorAll(
+                ".reveal"
+            );
+
+
+        const revealObserver =
+            new IntersectionObserver(
+                entries => {
+
+                    entries.forEach(
+                        entry => {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                entry.target.classList.add(
+                                    "visible"
+                                );
+
+                                revealObserver.unobserve(
+                                    entry.target
+                                );
+
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: .12
+                }
+            );
+
+
+        revealElements.forEach(
+            element => {
+
+                revealObserver.observe(
+                    element
+                );
+
+            }
+        );
+
+
+
+        /* =========================================================
+           SMOOTH SCROLL
+        ========================================================= */
+
+        document.querySelectorAll(
+            'a[href^="#"]'
+        ).forEach(
+            link => {
+
+                link.addEventListener(
+                    "click",
+                    event => {
+
+                        const target =
+                            document.querySelector(
+                                link.getAttribute(
+                                    "href"
+                                )
+                            );
+
+
+                        if (!target) {
+                            return;
+                        }
+
+
+                        event.preventDefault();
+
+
+                        target.scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>
